@@ -50,7 +50,7 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        pass
+        return 0
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -155,8 +155,10 @@ def read_package(workout_type: str, data: list) -> Training:
         'RUN': Running,
         'WLK': SportsWalking,
     }
+    training_type: Training
     if workout_type in training:
-        return training[workout_type](*data)
+        training_type = training[workout_type](*data)
+    return training_type
 
 
 def main(training: Training) -> None:
