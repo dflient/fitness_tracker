@@ -7,21 +7,19 @@ class InfoMessage:
                  speed: float,
                  calories: float
                  ) -> None:
-        self.training_type = training_type
-        self.duration = duration
-        self.distance = distance
-        self.speed = speed
-        self.calories = calories
+        self.training_type: str = training_type
+        self.duration: float = duration
+        self.distance: float = distance
+        self.speed: float = speed
+        self.calories: float = calories
+        self.message: str = (f'Тип тренировки: {self.training_type}; '
+                             f'Длительность: {self.duration:.3f} ч.; '
+                             f'Дистанция: {self.distance:.3f} км; '
+                             f'Ср. скорость: {self.speed:.3f} км/ч; '
+                             f'Потрачено ккал: {self.calories:.3f}.')
 
     def get_message(self) -> str:
-        return f'''
-Тип тренировки: {self.training_type};
-Длительность: {self.duration} ч.;
-Дистанция: {self.distance:.3f} км;
-Ср. скорость: {self.speed:.3f} км/ч;
-Потрачено ккал: {self.calories:.3f}.
-'''
-
+        return self.message
 
 class Training:
     """Базовый класс тренировки."""
@@ -163,7 +161,7 @@ def read_package(workout_type: str, data: list) -> Training:
 
 def main(training: Training) -> None:
     """Главная функция."""
-    info = training.show_training_info()
+    info: InfoMessage = training.show_training_info()
     print(info.get_message())
 
 
