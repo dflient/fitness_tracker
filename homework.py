@@ -14,12 +14,11 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
-        message = (f'Тип тренировки: {self.training_type}; '
-                   f'Длительность: {self.duration} ч.; '
-                   f'Дистанция: {self.distance:.3f} км; '
-                   f'Ср. скорость: {self.speed:.3f} км/ч; '
-                   f'Потрачено ккал: {self.calories:.3f}.')
-        return message
+        return (f'Тип тренировки: {self.training_type}; '
+                f'Длительность: {self.duration} ч.; '
+                f'Дистанция: {self.distance:.3f} км; '
+                f'Ср. скорость: {self.speed:.3f} км/ч; '
+                f'Потрачено ккал: {self.calories:.3f}.')
 
 
 class Training:
@@ -27,6 +26,7 @@ class Training:
 
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
+    SEC_IN_MIN: int = 60
 
     def __init__(self,
                  action: int,
@@ -71,9 +71,8 @@ class Running(Training):
 
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
-    CALORIES_MEAN_SPEED_MULTIPLIER = 18
-    CALORIES_MEAN_SPEED_SHIFT = 1.79
-    SEC_IN_MIN = 60
+    CALORIES_MEAN_SPEED_MULTIPLIER: float = 18
+    CALORIES_MEAN_SPEED_SHIFT: float = 1.79
 
     def get_spent_calories(self) -> float:
         duration_in_min = self.duration * self.SEC_IN_MIN
@@ -92,9 +91,8 @@ class SportsWalking(Training):
     M_IN_KM: int = 1000
     K_1: float = 0.035
     K_2: float = 0.029
-    SEC_IN_MIN: int = 60
-    DIV_FAC: float = 0.278
     CM_IN_M: int = 100
+    DIV_FAC: float = 0.278
 
     def __init__(self, action: int,
                  duration: float,
@@ -105,7 +103,7 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
-        mean_speed_in_m = self.get_mean_speed() / self.DIV_FAC
+        mean_speed_in_m = self.get_mean_speed() * self.DIV_FAC
         height_in_m = self.height / self.CM_IN_M
         duration_in_min = self.duration * self.SEC_IN_MIN
         spent_calories = ((self.K_1 * self.weiht
@@ -117,10 +115,10 @@ class SportsWalking(Training):
 class Swimming(Training):
     """Тренировка: плавание."""
 
-    LEN_STEP = 1.38
-    M_IN_KM = 1000
-    K_1 = 1.1
-    K_2 = 2
+    LEN_STEP: float = 1.38
+    M_IN_KM: int = 1000
+    K_1: float = 1.1
+    K_2: int = 2
 
     def __init__(self, action: int,
                  duration: float,
