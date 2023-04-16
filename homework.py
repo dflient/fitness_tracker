@@ -21,6 +21,7 @@ class InfoMessage:
     def get_message(self) -> str:
         return self.message
 
+
 class Training:
     """Базовый класс тренировки."""
 
