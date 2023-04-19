@@ -38,8 +38,7 @@ class Training:
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        distance = self.action * self.LEN_STEP / self.M_IN_KM
-        return distance
+        return self.action * self.LEN_STEP / self.M_IN_KM
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
@@ -48,7 +47,7 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        return 0
+        raise NotImplementedError(self.__class__.__name__)
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -83,8 +82,8 @@ class Running(Training):
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    K_1: float = 0.035
-    K_2: float = 0.029
+    COEF_1: float = 0.035
+    COEF_2: float = 0.029
     CM_IN_M: int = 100
     DIV_FAC: float = 0.278
 
@@ -100,9 +99,9 @@ class SportsWalking(Training):
         mean_speed_in_m = self.get_mean_speed() * self.DIV_FAC
         height_in_m = self.height / self.CM_IN_M
         duration_in_min = self.duration * self.SEC_IN_MIN
-        spent_calories = ((self.K_1 * self.weiht
+        spent_calories = ((self.COEF_1 * self.weiht
                            + (mean_speed_in_m**2 / height_in_m)
-                           * self.K_2 * self.weiht) * duration_in_min)
+                           * self.COEF_2 * self.weiht) * duration_in_min)
         return spent_calories
 
 
@@ -110,8 +109,8 @@ class Swimming(Training):
     """Тренировка: плавание."""
 
     LEN_STEP: float = 1.38
-    K_1: float = 1.1
-    K_2: int = 2
+    COEF_1: float = 1.1
+    COEF_2: int = 2
 
     def __init__(self, action: int,
                  duration: float,
@@ -132,8 +131,8 @@ class Swimming(Training):
 
     def get_spent_calories(self) -> float:
         mean_speed = self.get_mean_speed()
-        spent_calories = ((mean_speed + self.K_1)
-                          * self.K_2
+        spent_calories = ((mean_speed + self.COEF_1)
+                          * self.COEF_2
                           * self.weiht
                           * self.duration)
         return spent_calories
