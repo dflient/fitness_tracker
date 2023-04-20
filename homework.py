@@ -42,8 +42,7 @@ class Training:
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
-        mean_speed = self.get_distance() / self.duration
-        return mean_speed
+        return self.get_distance() / self.duration
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
@@ -51,16 +50,11 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        training_type = self.__class__.__name__
-        duration = self.duration
-        distance = self.get_distance()
-        mean_speed = self.get_mean_speed()
-        spent_calories = self.get_spent_calories()
-        return InfoMessage(training_type,
-                           duration,
-                           distance,
-                           mean_speed,
-                           spent_calories,)
+        return InfoMessage(self.__class__.__name__,
+                           self.duration,
+                           self.get_distance(),
+                           self.get_mean_speed(),
+                           self.get_spent_calories(),)
 
 
 class Running(Training):
@@ -145,10 +139,8 @@ def read_package(workout_type: str, data: list) -> Training:
         'RUN': Running,
         'WLK': SportsWalking,
     }
-    training_type: Training
     if workout_type in training:
-        training_type = training[workout_type](*data)
-    return training_type
+        return training[workout_type](*data)
 
 
 def main(training: Training) -> None:
